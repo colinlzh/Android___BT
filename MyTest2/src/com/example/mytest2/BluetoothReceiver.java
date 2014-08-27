@@ -5,10 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.Handler;
 import android.widget.TextView;
 
 public class BluetoothReceiver {
@@ -25,18 +27,8 @@ public class BluetoothReceiver {
 	volatile boolean stopWorker;
 	
 	private TextView tv1;
-//	public Activity activity;
-	private MainActivity mainActivity;
-	
+	private MainActivity mainActivity;	
 	private static BluetoothReceiver instance;
-//	public static BluetoothReceiver getInstance()
-//	{
-//		if(instance == null)
-//		{
-//			instance = new BluetoothReceiver();
-//		}
-//		return instance;
-//	}
 	
 	public BluetoothReceiver(MainActivity main_activity)
 	{		
@@ -79,34 +71,23 @@ public class BluetoothReceiver {
         }
         tv1.setText("Bluetooth Device Found");
     }
-
-//	public static void OpenBT() throws IOException
-//	{
-//		if(instance!=null)
-//		{
-//			instance.openBT();
-//		}
-//		
-//	}
 	
     void openBT() throws IOException
     {
-    	
         UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); //Standard SerialPortService ID
 
         mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);     
         mmSocket.connect();
         mmOutputStream = mmSocket.getOutputStream();
         mmInputStream = mmSocket.getInputStream();
-        System.out.print("openBT");
+        
+        tv1.setText("Bluetooth Opened");
         beginListenForData();
-
-//        tv1.setText("Bluetooth Opened");
     }
     
     void beginListenForData()
     {
-        //final Handler handler = new Handler(); 
+        final Handler handler = new Handler(); 
         final byte delimiter = 10; //This is the ASCII code for a newline character
 
         stopWorker = false;
@@ -121,7 +102,6 @@ public class BluetoothReceiver {
                     try 
                     {
                         int bytesAvailable = mmInputStream.available(); 
-                       // System.out.print("bytesAvailable");
                         if(bytesAvailable > 0)
                         {
                             byte[] packetBytes = new byte[bytesAvailable];
@@ -138,16 +118,14 @@ public class BluetoothReceiver {
                                 	
                                 	serialData=data;
                                 	System.out.println(serialData.toString());
-//                                	tv1.setText(serialData.toString());
-//                                    handler.post(new Runnable()
-//                                    {
-//                                        public void run()
-//                                        {
-//                                        	//serialDataView.setText(data);
-//                                        }
-//                                    });
-                                	
-                                	
+                               	
+                                    handler.post(new Runnable()
+                                    {
+                                        public void run()
+                                        {
+                                        	tv1.setText(serialData.toString());
+                                        }
+                                    });
                                 }
                                 else
                                 {
@@ -176,7 +154,7 @@ public class BluetoothReceiver {
         String msg = " ";// myTextbox.getText().toString();
         msg += "\n";
         mmOutputStream.write(msg.getBytes());
-//        tv1.setText("Bluetooth data sent");
+        tv1.setText("Bluetooth data sent");
     }
 
     public static void CloseBT() throws IOException
@@ -197,6 +175,6 @@ public class BluetoothReceiver {
         if(mmSocket!=null)
         	mmSocket.close();
         
-//        tv1.setText("Bluetooth Closed");
+        tv1.setText("Bluetooth Closed");
     }
 }

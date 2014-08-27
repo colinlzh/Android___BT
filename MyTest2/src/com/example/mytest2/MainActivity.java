@@ -18,7 +18,6 @@ public class MainActivity extends Activity {
 		tv1 = (TextView) findViewById(R.id.textView1);
 		
 		BluetoothReceiver btActivity = new BluetoothReceiver(this);
-//		BluetoothReceiver.getInstance().activity=MainActivity.this;
 		btActivity.findBT();
 		try {
 			btActivity.openBT();
