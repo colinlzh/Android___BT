@@ -24,7 +24,7 @@ public class BluetoothReceiver {
 	byte[] readBuffer;
 	int readBufferPosition;
 	int counter;
-	volatile boolean stopWorker;
+	volatile boolean workerStopped;
 	
 	private TextView tv1;
 	private MainActivity mainActivity;	
@@ -90,14 +90,14 @@ public class BluetoothReceiver {
         final Handler handler = new Handler(); 
         final byte delimiter = 10; //This is the ASCII code for a newline character
 
-        stopWorker = false;
+        workerStopped = false;
         readBufferPosition = 0;
         readBuffer = new byte[1024];
         workerThread = new Thread(new Runnable()
         {
             public void run()
             {                
-               while(!Thread.currentThread().isInterrupted() && !stopWorker)
+               while(!Thread.currentThread().isInterrupted() && !workerStopped)
                {
                     try 
                     {
@@ -134,12 +134,10 @@ public class BluetoothReceiver {
                             }
                         }
                       System.out.println(serialData);
-//                      tv1.setText(serialData.toString());
                     }
-                    
                     catch (IOException ex) 
                     {
-                        stopWorker = true;
+                        workerStopped = true;
                     }
                }
             }
@@ -167,12 +165,12 @@ public class BluetoothReceiver {
     
     public void closeBT() throws IOException
     {
-        stopWorker = true;
+        workerStopped = true;
         if(mmOutputStream != null)
         	mmOutputStream.close();
-        if(mmInputStream!=null)
+        if(mmInputStream != null)
         	mmInputStream.close();
-        if(mmSocket!=null)
+        if(mmSocket != null)
         	mmSocket.close();
         
         tv1.setText("Bluetooth Closed");
