@@ -1,5 +1,7 @@
 package com.example.mytest2;
 
+import java.io.IOException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -13,6 +15,11 @@ public class MainActivity extends Activity {
 		
 		BluetoothReceiver.getInstance().activity=MainActivity.this;
 		BluetoothReceiver.getInstance().findBT();
+		try {
+			BluetoothReceiver.getInstance().OpenBT();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

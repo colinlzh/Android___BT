@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.util.Log;
 
 public class BluetoothReceiver {
 	public String serialData = "empty";
@@ -63,7 +64,7 @@ public class BluetoothReceiver {
             for(BluetoothDevice device : pairedDevices)
             {
                 //if(device.getName().equals("HC-06") && device.getAddress().equals("00:14:01:06:16:52"))  //20:13:10:30:03:93 30:14:07:31:37:68 
-            	if(device.getName().equals("HC-06")&&device.getAddress().equals("30:14:07:31:37:68"))
+            	if(device.getName().equals("HC-06"))
                 {
                     mmDevice = device;
                     break;
@@ -130,7 +131,7 @@ public class BluetoothReceiver {
                                 	readBufferPosition = 0;
                                 	
                                 	serialData=data;
-                                	//Log.d("serial data", serialData);
+                                	System.out.println(serialData.toString());
 //                                    handler.post(new Runnable()
 //                                    {
 //                                        public void run()
