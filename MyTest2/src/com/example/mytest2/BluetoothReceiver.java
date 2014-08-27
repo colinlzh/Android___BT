@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -26,7 +25,7 @@ public class BluetoothReceiver {
 	volatile boolean stopWorker;
 	
 	private TextView tv1;
-	public Activity activity;
+//	public Activity activity;
 	private MainActivity mainActivity;
 	
 	private static BluetoothReceiver instance;
@@ -53,15 +52,15 @@ public class BluetoothReceiver {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBluetoothAdapter == null)
         {
-//        	tv1.setText("No bluetooth adapter available");
+        	tv1.setText("No bluetooth adapter available");
         	return;
         }
 
         if(!mBluetoothAdapter.isEnabled())
         {
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            activity.startActivityForResult(enableBluetooth, 0);
-//            tv1.setText("Try to enable Bluetooth");
+            mainActivity.startActivityForResult(enableBluetooth, 0);
+            tv1.setText("Try to enable Bluetooth");
         }
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -73,22 +72,22 @@ public class BluetoothReceiver {
             	if(device.getName().equals("HC-06"))
                 {
                     mmDevice = device;
-//                    tv1.setText("Bind the Bluetooth device");
+                    tv1.setText("Bind the Bluetooth device");
                     break;
                 }
             }
         }
-//        tv1.setText("Bluetooth Device Found");
+        tv1.setText("Bluetooth Device Found");
     }
 
-	public static void OpenBT() throws IOException
-	{
-		if(instance!=null)
-		{
-			instance.openBT();
-		}
-		
-	}
+//	public static void OpenBT() throws IOException
+//	{
+//		if(instance!=null)
+//		{
+//			instance.openBT();
+//		}
+//		
+//	}
 	
     void openBT() throws IOException
     {

@@ -17,11 +17,11 @@ public class MainActivity extends Activity {
 		
 		tv1 = (TextView) findViewById(R.id.textView1);
 		
-		BluetoothReceiver activity = new BluetoothReceiver(this);
+		BluetoothReceiver btActivity = new BluetoothReceiver(this);
 //		BluetoothReceiver.getInstance().activity=MainActivity.this;
-		activity.findBT();
+		btActivity.findBT();
 		try {
-			activity.OpenBT();
+			btActivity.openBT();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
