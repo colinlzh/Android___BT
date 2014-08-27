@@ -10,7 +10,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.util.Log;
+import android.widget.TextView;
 
 public class BluetoothReceiver {
 	public String serialData = "empty";
@@ -25,30 +25,35 @@ public class BluetoothReceiver {
 	int counter;
 	volatile boolean stopWorker;
 	
+	private TextView tv1;
 	public Activity activity;
+	private MainActivity mainActivity;
 	
 	private static BluetoothReceiver instance;
-	public static BluetoothReceiver getInstance()
-	{
-		if(instance == null)
-		{
-			instance = new BluetoothReceiver();
-		}
-		return instance;
-	}
+//	public static BluetoothReceiver getInstance()
+//	{
+//		if(instance == null)
+//		{
+//			instance = new BluetoothReceiver();
+//		}
+//		return instance;
+//	}
 	
-	public BluetoothReceiver()
-	{
-		//activity = _activity;
+	public BluetoothReceiver(MainActivity main_activity)
+	{		
+		mainActivity = main_activity;
 		findBT();
 	}
 	
 	void findBT()
     {
+		tv1 = mainActivity.tv1;
+		tv1.setText("BluetoothReceiver");
+		
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBluetoothAdapter == null)
         {
-        	//serialDataView.setText("No bluetooth adapter available");
+//        	tv1.setText("No bluetooth adapter available");
         	return;
         }
 
@@ -56,6 +61,7 @@ public class BluetoothReceiver {
         {
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableBluetooth, 0);
+//            tv1.setText("Try to enable Bluetooth");
         }
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -67,11 +73,12 @@ public class BluetoothReceiver {
             	if(device.getName().equals("HC-06"))
                 {
                     mmDevice = device;
+//                    tv1.setText("Bind the Bluetooth device");
                     break;
                 }
             }
         }
-        //serialDataView.setText("Bluetooth Device Found");
+//        tv1.setText("Bluetooth Device Found");
     }
 
 	public static void OpenBT() throws IOException
@@ -95,7 +102,7 @@ public class BluetoothReceiver {
         System.out.print("openBT");
         beginListenForData();
 
-        //serialDataView.setText("Bluetooth Opened");
+//        tv1.setText("Bluetooth Opened");
     }
     
     void beginListenForData()
@@ -132,6 +139,7 @@ public class BluetoothReceiver {
                                 	
                                 	serialData=data;
                                 	System.out.println(serialData.toString());
+//                                	tv1.setText(serialData.toString());
 //                                    handler.post(new Runnable()
 //                                    {
 //                                        public void run()
@@ -148,8 +156,9 @@ public class BluetoothReceiver {
                                 }
                             }
                         }
-                      //System.out.println(serialData);
-                    } 
+                      System.out.println(serialData);
+//                      tv1.setText(serialData.toString());
+                    }
                     
                     catch (IOException ex) 
                     {
@@ -168,7 +177,7 @@ public class BluetoothReceiver {
         String msg = " ";// myTextbox.getText().toString();
         msg += "\n";
         mmOutputStream.write(msg.getBytes());
-        //serialDataView.setText("Data Sent");
+//        tv1.setText("Bluetooth data sent");
     }
 
     public static void CloseBT() throws IOException
@@ -188,6 +197,7 @@ public class BluetoothReceiver {
         	mmInputStream.close();
         if(mmSocket!=null)
         	mmSocket.close();
-        //serialDataView.setText("Bluetooth Closed");
+        
+//        tv1.setText("Bluetooth Closed");
     }
 }

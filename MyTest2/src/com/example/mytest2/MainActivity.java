@@ -1,22 +1,27 @@
 package com.example.mytest2;
 
 import java.io.IOException;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	TextView tv1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		BluetoothReceiver.getInstance().activity=MainActivity.this;
-		BluetoothReceiver.getInstance().findBT();
+		tv1 = (TextView) findViewById(R.id.textView1);
+		
+		BluetoothReceiver activity = new BluetoothReceiver(this);
+//		BluetoothReceiver.getInstance().activity=MainActivity.this;
+		activity.findBT();
 		try {
-			BluetoothReceiver.getInstance().OpenBT();
+			activity.OpenBT();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
