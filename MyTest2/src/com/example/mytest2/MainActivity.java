@@ -21,9 +21,10 @@ public class MainActivity extends Activity {
 		btActivity.findBT();
 		try {
 			btActivity.openBT();
+			btActivity.listenForData();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 	}
 
 	@Override

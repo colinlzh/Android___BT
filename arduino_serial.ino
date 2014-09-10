@@ -25,7 +25,7 @@ void loop() {
   while (Serial.available() > 0)  
   {
     comdata += char(Serial.read());
-    delay(2);
+    delay(100);
   }
   if (comdata.length() > 0)
   {

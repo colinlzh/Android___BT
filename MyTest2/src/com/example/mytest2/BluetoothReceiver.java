@@ -82,10 +82,9 @@ public class BluetoothReceiver {
         mmInputStream = mmSocket.getInputStream();
         
         tv1.setText("Bluetooth Opened");
-        beginListenForData();
     }
     
-    void beginListenForData()
+    void listenForData()
     {
         final Handler handler = new Handler(); 
         final byte delimiter = 10; //This is the ASCII code for a newline character
@@ -133,7 +132,7 @@ public class BluetoothReceiver {
                                 }
                             }
                         }
-                      System.out.println(serialData);
+                      System.out.println(serialData);                      
                     }
                     catch (IOException ex) 
                     {
@@ -149,7 +148,7 @@ public class BluetoothReceiver {
     //not used at the moment
     void sendData() throws IOException
     {
-        String msg = " ";// myTextbox.getText().toString();
+        String msg = "hello";// myTextbox.getText().toString();
         msg += "\n";
         mmOutputStream.write(msg.getBytes());
         tv1.setText("Bluetooth data sent");
