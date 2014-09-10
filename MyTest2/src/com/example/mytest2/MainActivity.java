@@ -20,8 +20,9 @@ public class MainActivity extends Activity {
 		BluetoothReceiver btActivity = new BluetoothReceiver(this);
 		btActivity.findBT();
 		try {
-			btActivity.openBT();
+			btActivity.openBT();			
 			btActivity.listenForData();
+			btActivity.timelySendData();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		

@@ -20,12 +20,12 @@ void loop() {
   int sensorValue = analogRead(A0);
   // print out the value you read:
   Serial.println(sensorValue);
-  delay(500);        // delay in between reads for stability
+  delay(1000);        // delay in between reads for stability
 
   while (Serial.available() > 0)  
   {
     comdata += char(Serial.read());
-    delay(100);
+    delay(20);
   }
   if (comdata.length() > 0)
   {
