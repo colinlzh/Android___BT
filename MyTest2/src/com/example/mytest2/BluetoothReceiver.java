@@ -162,7 +162,7 @@ public class BluetoothReceiver {
 
 	// not used at the moment
 	void sendData() throws IOException {
-		send_msg += "\n";
+//		send_msg += "\n";
 		mmOutputStream.write(send_msg.getBytes());
 	}
 
