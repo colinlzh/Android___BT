@@ -12,19 +12,10 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/closeBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="69dp"
-        android:text="recv data" />
-
-    <Button
-        android:id="@+id/closeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="144dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="Close" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        android:text="recv data" />
 
     <Button
         android:id="@+id/restartBtn"
@@ -32,7 +23,17 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/closeBtn"
         android:layout_alignBottom="@+id/closeBtn"
-        android:layout_toLeftOf="@+id/textView1"
+        android:layout_alignParentLeft="true"
         android:text="Restart" />
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="82dp"
+        android:text="Close" />
 
 </RelativeLayout>

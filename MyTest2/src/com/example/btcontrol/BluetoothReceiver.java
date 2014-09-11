@@ -30,6 +30,7 @@ public class BluetoothReceiver {
 	int counter;
 	volatile boolean workerStopped;
 	String send_msg = "hello";
+	Timer timer;
 
 	private TextView tv1;
 	private MainActivity mainActivity;
@@ -148,7 +149,7 @@ public class BluetoothReceiver {
 	}
 
 	void timelySendData() {
-		Timer timer = new Timer(true);
+		timer = new Timer(true);
 		timer.schedule(task, 1000, 1000); // 延时1000ms后执行，1000ms执行一次
 	}
 
@@ -172,13 +173,18 @@ public class BluetoothReceiver {
 
 	// not used at the moment
 	void sendData() throws IOException {
-		// send_msg += "\n";
 		mmOutputStream.write(send_msg.getBytes());
 	}
 
 	public void closeBT() throws IOException {
+		
 		workerStopped = true;
-		System.out.println("try closeBT() 2");
+		try {
+			timer.cancel();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		if (mmOutputStream != null)
 			mmOutputStream.close();
 		if (mmInputStream != null)

@@ -51,8 +51,8 @@ public class MainActivity extends Activity {
 	
 	public void BTHandler()
 	{
-		btActivity.findBT();
 		try {
+			btActivity.findBT();
 			btActivity.openBT();
 			btActivity.listenForData();
 			btActivity.timelySendData();
