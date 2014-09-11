@@ -32,7 +32,6 @@ public class BluetoothReceiver {
 
 	private TextView tv1;
 	private MainActivity mainActivity;
-	private static BluetoothReceiver instance;
 
 	public BluetoothReceiver(MainActivity main_activity) {
 		mainActivity = main_activity;
