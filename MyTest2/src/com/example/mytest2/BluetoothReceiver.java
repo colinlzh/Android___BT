@@ -36,7 +36,6 @@ public class BluetoothReceiver {
 
 	public BluetoothReceiver(MainActivity main_activity) {
 		mainActivity = main_activity;
-		findBT();
 	}
 
 	void findBT() {
@@ -75,8 +74,8 @@ public class BluetoothReceiver {
 
 	void openBT() throws IOException {
 		UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // Standard
-																				// SerialPortService
-																				// ID
+																			 // SerialPortService
+																			 // ID
 
 		mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);
 		mmSocket.connect();
@@ -162,18 +161,20 @@ public class BluetoothReceiver {
 
 	// not used at the moment
 	void sendData() throws IOException {
-//		send_msg += "\n";
+		// send_msg += "\n";
 		mmOutputStream.write(send_msg.getBytes());
 	}
 
-	public static void CloseBT() throws IOException {
-		if (instance != null) {
-			instance.closeBT();
-		}
-	}
+//	public void CloseBT() throws IOException {
+//		if (instance != null) {
+//			instance.closeBT();
+//			System.out.println("try closeBT");
+//		}
+//	}
 
 	public void closeBT() throws IOException {
 		workerStopped = true;
+		System.out.println("try closeBT() 2");
 		if (mmOutputStream != null)
 			mmOutputStream.close();
 		if (mmInputStream != null)
