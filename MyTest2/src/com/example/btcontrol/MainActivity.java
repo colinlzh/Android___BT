@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 		
 		restartBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				// should not execute heavy task in main UI thread?
 				BTHandler();
 			}
 		});
