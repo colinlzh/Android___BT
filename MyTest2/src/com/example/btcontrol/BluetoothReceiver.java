@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Handler;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BluetoothReceiver {
 	public String serialData = "empty";
@@ -43,15 +44,18 @@ public class BluetoothReceiver {
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
-			tv1.setText("No bluetooth adapter available");
+			Toast.makeText(mainActivity, "No bluetooth adapter available",
+					Toast.LENGTH_SHORT).show();
 			return;
 		}
 
+		// try to enable BT of the device
 		if (!mBluetoothAdapter.isEnabled()) {
 			Intent enableBluetooth = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			mainActivity.startActivityForResult(enableBluetooth, 0);
-			tv1.setText("Try to enable Bluetooth");
+			Toast.makeText(mainActivity, "Try to enable Bluetooth",
+					Toast.LENGTH_SHORT).show();
 		}
 
 		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter
@@ -63,25 +67,33 @@ public class BluetoothReceiver {
 				// //20:13:10:30:03:93 30:14:07:31:37:68
 				if (device.getName().equals("HC-06")) {
 					mmDevice = device;
-					tv1.setText("Bind the Bluetooth device");
+					Toast.makeText(mainActivity, "Bind the Bluetooth device",
+							Toast.LENGTH_SHORT).show();
 					break;
 				}
 			}
 		}
-		tv1.setText("Bluetooth Device Found");
+		Toast.makeText(mainActivity, "Bluetooth Device Found",
+				Toast.LENGTH_SHORT).show();
 	}
 
 	void openBT() throws IOException {
 		UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // Standard
-																			 // SerialPortService
-																			 // ID
+																				// SerialPortService
+																				// ID
 
-		mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);
-		mmSocket.connect();
-		mmOutputStream = mmSocket.getOutputStream();
-		mmInputStream = mmSocket.getInputStream();
+		try {
+			mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);
+			mmSocket.connect();
+			mmOutputStream = mmSocket.getOutputStream();
+			mmInputStream = mmSocket.getInputStream();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
 
-		tv1.setText("Bluetooth Opened");
+		Toast.makeText(mainActivity, "Bluetooth Opened", Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	void listenForData() {
@@ -164,13 +176,6 @@ public class BluetoothReceiver {
 		mmOutputStream.write(send_msg.getBytes());
 	}
 
-//	public void CloseBT() throws IOException {
-//		if (instance != null) {
-//			instance.closeBT();
-//			System.out.println("try closeBT");
-//		}
-//	}
-
 	public void closeBT() throws IOException {
 		workerStopped = true;
 		System.out.println("try closeBT() 2");
@@ -180,7 +185,10 @@ public class BluetoothReceiver {
 			mmInputStream.close();
 		if (mmSocket != null)
 			mmSocket.close();
+		if (mBluetoothAdapter != null)
+			mBluetoothAdapter.disable();
 
-		tv1.setText("Bluetooth Closed");
+		Toast.makeText(mainActivity, "Bluetooth Closed", Toast.LENGTH_SHORT)
+				.show();
 	}
 }

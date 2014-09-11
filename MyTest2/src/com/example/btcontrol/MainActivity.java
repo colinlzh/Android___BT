@@ -15,7 +15,8 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	TextView tv1;
-	Button btn1;
+	Button closeBtn, restartBtn;
+	BluetoothReceiver btActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +24,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		tv1 = (TextView) findViewById(R.id.textView1);
-		btn1 = (Button) findViewById(R.id.button1);
-		final BluetoothReceiver btActivity = new BluetoothReceiver(this);
+		closeBtn = (Button) findViewById(R.id.closeBtn);
+		restartBtn = (Button) findViewById(R.id.restartBtn);
+		
+		btActivity = new BluetoothReceiver(this);
 
-		btn1.setOnClickListener(new View.OnClickListener() {
+		closeBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				System.out.println("try closeBT()");
 				try {
@@ -36,8 +39,18 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-
 		
+		restartBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				BTHandler();
+			}
+		});
+
+		BTHandler();		
+	}
+	
+	public void BTHandler()
+	{
 		btActivity.findBT();
 		try {
 			btActivity.openBT();
