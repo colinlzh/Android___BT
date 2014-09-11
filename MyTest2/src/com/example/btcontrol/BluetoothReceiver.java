@@ -1,4 +1,4 @@
-package com.example.mytest2;
+package com.example.btcontrol;
 
 import java.io.IOException;
 import java.io.InputStream;

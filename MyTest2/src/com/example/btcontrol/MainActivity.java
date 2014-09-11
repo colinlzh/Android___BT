@@ -1,6 +1,9 @@
-package com.example.mytest2;
+package com.example.btcontrol;
 
 import java.io.IOException;
+
+import com.example.mytest2.R;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
