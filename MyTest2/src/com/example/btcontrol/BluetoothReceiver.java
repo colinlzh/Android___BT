@@ -33,7 +33,7 @@ public class BluetoothReceiver {
 	Timer timer;
 	TimerTask task;
 
-//	private TextView tv1;
+	private TextView tv1;
 	private MainActivity mainActivity;
 
 	public BluetoothReceiver(MainActivity main_activity) {
@@ -41,8 +41,8 @@ public class BluetoothReceiver {
 	}
 
 	void findBT() {
-//		tv1 = mainActivity.tv1;
-//		tv1.setText("BluetoothReceiver");
+		tv1 = mainActivity.tv1;
+		tv1.setText("BluetoothReceiver");
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -131,7 +131,7 @@ public class BluetoothReceiver {
 
 									handler.post(new Runnable() {
 										public void run() {
-//											tv1.setText(serialData.toString());
+											tv1.setText(serialData.toString());
 										}
 									});
 								} else {
@@ -164,7 +164,7 @@ public class BluetoothReceiver {
 	
 						handler.post(new Runnable() {
 							public void run() {
-	//							tv1.setText("Bluetooth data sent: " + send_msg);
+								tv1.setText("Bluetooth data sent: " + send_msg);
 							}
 						});
 					} catch (IOException e) {
@@ -175,7 +175,7 @@ public class BluetoothReceiver {
 		}
 		
 		if(timer != null && task != null)
-			timer.schedule(task, 1000, 1000); // ��ʱ1000ms��ִ�У�1000msִ��һ��
+			timer.schedule(task, 1000, 1000);
 	}
 
 	
