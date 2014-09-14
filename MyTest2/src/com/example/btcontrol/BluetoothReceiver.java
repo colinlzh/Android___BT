@@ -12,7 +12,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
 import android.os.Handler;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,7 +149,7 @@ public class BluetoothReceiver {
 
 	void timelySendData() {
 		timer = new Timer(true);
-		timer.schedule(task, 1000, 1000); // ÑÓÊ±1000msºóÖ´ÐÐ£¬1000msÖ´ÐÐÒ»´Î
+		timer.schedule(task, 1000, 1000); // ï¿½ï¿½Ê±1000msï¿½ï¿½Ö´ï¿½Ð£ï¿½1000msÖ´ï¿½ï¿½Ò»ï¿½ï¿½
 	}
 
 	TimerTask task = new TimerTask() {
