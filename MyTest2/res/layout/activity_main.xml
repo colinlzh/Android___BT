@@ -21,13 +21,13 @@
         android:id="@+id/restartBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/closeBtn"
-        android:layout_alignBottom="@+id/closeBtn"
+        android:layout_alignBaseline="@+id/stopBtn"
+        android:layout_alignBottom="@+id/stopBtn"
         android:layout_alignParentLeft="true"
         android:text="Restart" />
 
     <Button
-        android:id="@+id/closeBtn"
+        android:id="@+id/stopBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -35,5 +35,14 @@
         android:layout_marginRight="19dp"
         android:layout_marginTop="82dp"
         android:text="Stop" />
+
+    <Button
+        android:id="@+id/exitBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stopBtn"
+        android:layout_below="@+id/stopBtn"
+        android:layout_marginTop="18dp"
+        android:text="Exit" />
 
 </RelativeLayout>

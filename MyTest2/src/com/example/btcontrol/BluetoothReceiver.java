@@ -197,7 +197,7 @@ public class BluetoothReceiver {
 		}
 	}
 
-	public void closeBT() throws IOException {
+	public void stopBT() throws IOException {
 		workerStopped = true; 
 		stopTimer();
 		
