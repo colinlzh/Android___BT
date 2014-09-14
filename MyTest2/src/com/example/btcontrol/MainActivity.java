@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.mytest2.R;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
@@ -43,7 +44,12 @@ public class MainActivity extends Activity {
 		restartBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// should not execute heavy task in main UI thread?
-				BTHandler();
+				Handler h1 = new Handler();
+				h1.post(new Runnable() {
+					@Override
+					public void run() {
+						BTHandler();						
+					}});
 			}
 		});
 

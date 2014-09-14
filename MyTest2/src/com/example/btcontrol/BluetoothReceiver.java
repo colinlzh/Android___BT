@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import android.app.TaskStackBuilder;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -30,8 +31,9 @@ public class BluetoothReceiver {
 	volatile boolean workerStopped;
 	String send_msg = "hello";
 	Timer timer;
+	TimerTask task;
 
-	private TextView tv1;
+//	private TextView tv1;
 	private MainActivity mainActivity;
 
 	public BluetoothReceiver(MainActivity main_activity) {
@@ -39,8 +41,8 @@ public class BluetoothReceiver {
 	}
 
 	void findBT() {
-		tv1 = mainActivity.tv1;
-		tv1.setText("BluetoothReceiver");
+//		tv1 = mainActivity.tv1;
+//		tv1.setText("BluetoothReceiver");
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -129,7 +131,7 @@ public class BluetoothReceiver {
 
 									handler.post(new Runnable() {
 										public void run() {
-											tv1.setText(serialData.toString());
+//											tv1.setText(serialData.toString());
 										}
 									});
 								} else {
@@ -148,27 +150,35 @@ public class BluetoothReceiver {
 	}
 
 	void timelySendData() {
-		timer = new Timer(true);
-		timer.schedule(task, 1000, 1000); // ��ʱ1000ms��ִ�У�1000msִ��һ��
+		if(timer == null)
+			timer = new Timer(true);	
+		
+		if(task == null)
+		{
+			task = new TimerTask() {
+				Handler handler = new Handler();
+	
+				public void run() {
+					try {
+						sendData();
+	
+						handler.post(new Runnable() {
+							public void run() {
+	//							tv1.setText("Bluetooth data sent: " + send_msg);
+							}
+						});
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+		}
+		
+		if(timer != null && task != null)
+			timer.schedule(task, 1000, 1000); // ��ʱ1000ms��ִ�У�1000msִ��һ��
 	}
 
-	TimerTask task = new TimerTask() {
-		final Handler handler = new Handler();
-
-		public void run() {
-			try {
-				sendData();
-
-				handler.post(new Runnable() {
-					public void run() {
-						tv1.setText("Bluetooth data sent: " + send_msg);
-					}
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	};
+	
 
 	// not used at the moment
 	void sendData() throws IOException {
@@ -178,10 +188,14 @@ public class BluetoothReceiver {
 	public void closeBT() throws IOException {
 		
 		workerStopped = true;
-		try {
+		
+		if(timer != null){
 			timer.cancel();
-		} catch (Exception e) {
-			e.printStackTrace();
+			timer = null;
+		}
+		if(task != null){
+			task.cancel();	
+			task = null;
 		}
 		
 		if (mmOutputStream != null)
@@ -190,8 +204,8 @@ public class BluetoothReceiver {
 			mmInputStream.close();
 		if (mmSocket != null)
 			mmSocket.close();
-		if (mBluetoothAdapter != null)
-			mBluetoothAdapter.disable();
+//		if (mBluetoothAdapter != null)
+//			mBluetoothAdapter.disable();
 
 		Toast.makeText(mainActivity, "Bluetooth Closed", Toast.LENGTH_SHORT)
 				.show();

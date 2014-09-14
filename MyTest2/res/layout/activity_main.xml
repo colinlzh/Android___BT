@@ -34,6 +34,6 @@
         android:layout_below="@+id/textView1"
         android:layout_marginRight="19dp"
         android:layout_marginTop="82dp"
-        android:text="Close" />
+        android:text="Stop" />
 
 </RelativeLayout>
