@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -33,18 +34,35 @@ public class MainActivity extends Activity {
 
 		stopBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				System.out.println("try stopBT()");
+				Toast.makeText(getApplicationContext(), "Try stopBT()",
+						Toast.LENGTH_SHORT).show();
 				try {
-					btActivity.stopBT();
+					btActivity.stopBT();					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				stopBtn.setEnabled(false);
+				restartBtn.setEnabled(true);					
+			}
+		});	
+		
+		restartBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Handler h1 = new Handler();
+				h1.post(new Runnable() {
+					@Override
+					public void run() {
+						BTHandler();						
+					}});
+				restartBtn.setEnabled(false);
+				stopBtn.setEnabled(true);
 			}
 		});
 		
 		exitBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				System.out.println("try to close all!");
+				Toast.makeText(getApplicationContext(), "Try to close this app",
+						Toast.LENGTH_SHORT).show();
 				try {
 					btActivity.stopBT();
 				} catch (IOException e) {
@@ -54,25 +72,15 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		restartBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				// should not execute heavy task in main UI thread?
-				Handler h1 = new Handler();
-				h1.post(new Runnable() {
-					@Override
-					public void run() {
-						BTHandler();						
-					}});
-			}
-		});
-
+		restartBtn.setEnabled(false);
 		BTHandler();		
 	}
 	
-	public void BTHandler()
+	private void BTHandler()
 	{
 		try {
 			btActivity.findBT();
+			btActivity.paringBT();
 			btActivity.openBT();
 			btActivity.listenForData();
 			btActivity.timelySendData();
@@ -87,5 +95,4 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
 }

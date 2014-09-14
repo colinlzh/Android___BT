@@ -42,7 +42,8 @@ public class BluetoothReceiver {
 
 	void findBT() {
 		tv1 = mainActivity.tv1;
-		tv1.setText("BluetoothReceiver");
+		Toast.makeText(mainActivity, "BluetoothReceiver starts findBT()",
+				Toast.LENGTH_SHORT).show();
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -59,7 +60,9 @@ public class BluetoothReceiver {
 			Toast.makeText(mainActivity, "Try to enable Bluetooth",
 					Toast.LENGTH_SHORT).show();
 		}
-
+	}
+	
+	void paringBT(){
 		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter
 				.getBondedDevices();
 		if (pairedDevices.size() > 0) {
@@ -69,7 +72,7 @@ public class BluetoothReceiver {
 				// //20:13:10:30:03:93 30:14:07:31:37:68
 				if (device.getName().equals("HC-06")) {
 					mmDevice = device;
-					Toast.makeText(mainActivity, "Bind the Bluetooth device",
+					Toast.makeText(mainActivity, "Bind the Bluetooth device: "+device.getAddress(),
 							Toast.LENGTH_SHORT).show();
 					break;
 				}
@@ -81,8 +84,8 @@ public class BluetoothReceiver {
 
 	void openBT() throws IOException {
 		UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // Standard
-																				// SerialPortService
-																				// ID
+																		     // SerialPortService
+																			 // ID
 
 		try {
 			mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);
@@ -91,8 +94,7 @@ public class BluetoothReceiver {
 			mmInputStream = mmSocket.getInputStream();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-			
+		}			
 
 		Toast.makeText(mainActivity, "Bluetooth Opened", Toast.LENGTH_SHORT)
 				.show();
