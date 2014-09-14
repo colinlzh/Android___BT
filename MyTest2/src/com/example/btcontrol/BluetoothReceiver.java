@@ -181,14 +181,12 @@ public class BluetoothReceiver {
 	
 
 	// not used at the moment
-	void sendData() throws IOException {
+	private void sendData() throws IOException {
 		mmOutputStream.write(send_msg.getBytes());
 	}
-
-	public void closeBT() throws IOException {
-		
-		workerStopped = true;
-		
+	
+	private void stopTimer()
+	{				
 		if(timer != null){
 			timer.cancel();
 			timer = null;
@@ -197,6 +195,11 @@ public class BluetoothReceiver {
 			task.cancel();	
 			task = null;
 		}
+	}
+
+	public void closeBT() throws IOException {
+		workerStopped = true; 
+		stopTimer();
 		
 		if (mmOutputStream != null)
 			mmOutputStream.close();
