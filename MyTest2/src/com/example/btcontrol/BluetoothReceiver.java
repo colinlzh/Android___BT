@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
-import android.app.TaskStackBuilder;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -103,7 +101,7 @@ public class BluetoothReceiver {
 	void listenForData() {
 		final Handler handler = new Handler();
 		final byte delimiter = 10; // This is the ASCII code for a newline
-									// character
+								   // character
 
 		workerStopped = false;
 		readBufferPosition = 0;
@@ -113,7 +111,12 @@ public class BluetoothReceiver {
 				while (!Thread.currentThread().isInterrupted()
 						&& !workerStopped) {
 					try {
-						int bytesAvailable = mmInputStream.available();
+						int bytesAvailable = 0;
+						if(mmInputStream != null)
+							bytesAvailable = mmInputStream.available();
+						else {
+							break;
+						}
 						if (bytesAvailable > 0) {
 							byte[] packetBytes = new byte[bytesAvailable];
 							mmInputStream.read(packetBytes);
@@ -124,13 +127,11 @@ public class BluetoothReceiver {
 									System.arraycopy(readBuffer, 0,
 											encodedBytes, 0,
 											encodedBytes.length);
-									final String data = new String(
-											encodedBytes, "US-ASCII");
+									final String encodedData = new String(encodedBytes, "US-ASCII");
 									readBufferPosition = 0;
-
-									serialData = data;
+									serialData = encodedData;
+									
 									System.out.println(serialData.toString());
-
 									handler.post(new Runnable() {
 										public void run() {
 											tv1.setText(serialData.toString());
@@ -184,19 +185,8 @@ public class BluetoothReceiver {
 
 	// not used at the moment
 	private void sendData() throws IOException {
-		mmOutputStream.write(send_msg.getBytes());
-	}
-	
-	private void stopTimer()
-	{				
-		if(timer != null){
-			timer.cancel();
-			timer = null;
-		}
-		if(task != null){
-			task.cancel();	
-			task = null;
-		}
+		if(mmOutputStream != null)
+			mmOutputStream.write(send_msg.getBytes());
 	}
 
 	public void stopBT() throws IOException {
@@ -209,10 +199,22 @@ public class BluetoothReceiver {
 			mmInputStream.close();
 		if (mmSocket != null)
 			mmSocket.close();
-//		if (mBluetoothAdapter != null)
+//		if (mBluetoothAdapter != null)	// disable BT
 //			mBluetoothAdapter.disable();
 
 		Toast.makeText(mainActivity, "Bluetooth Closed", Toast.LENGTH_SHORT)
 				.show();
+	}
+	
+	private void stopTimer()
+	{				
+		if(timer != null){
+			timer.cancel();
+			timer = null;
+		}
+		if(task != null){
+			task.cancel();	
+			task = null;
+		}
 	}
 }
